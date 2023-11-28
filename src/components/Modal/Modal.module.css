@@ -1,0 +1,87 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.backdrop {
+  opacity: 1;
+}
+
+.modal {
+  position: absolute;
+  padding: 20px;
+  max-width: 450px;
+  width: 100%;
+  min-height: 600px;
+  background-color: white;
+  background-image: url(./book.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 10px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+.openBtn {
+  position: absolute;
+  top: 40px;
+  right: 30px;
+  background-color: var(--main-color);
+  opacity: 0.8;
+  border: 1.5px solid transparent;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.openBtn:hover,
+.openBtn:focus {
+  border-color: var(--dark-color);
+  opacity: 1;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  -webkit-animation: fadeIn 0.3s;
+  animation: fadeIn 0.3s;
+}
