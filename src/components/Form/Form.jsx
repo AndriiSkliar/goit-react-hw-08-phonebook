@@ -4,7 +4,7 @@ import css from "./Form.module.css"
 
 export const Form = ({onSubmit} ) => {
   const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
+  const [number, setNumber] = useState("")
   const nameId = nanoid()
   const tagId = nanoid()
 
@@ -16,8 +16,8 @@ export const Form = ({onSubmit} ) => {
         setName(value);
         return;
       }
-      case 'phone': {
-        setPhone(value);
+      case 'number': {
+        setNumber(value);
         return;
       }
       default:
@@ -29,14 +29,14 @@ export const Form = ({onSubmit} ) => {
     e.preventDefault();
     onSubmit({
       name,
-      phone,
+      number,
     });
     reset();
   };
 
   const reset = () => {
     setName("");
-    setPhone("");
+    setNumber("");
   };
 
     return (
@@ -58,14 +58,14 @@ export const Form = ({onSubmit} ) => {
         </div>
         <div className={css.form__container}>
           <label htmlFor={tagId}>
-            Phone
+            Number
           </label>
           <input
             type="tel"
-            name="phone"
+            name="number"
             className={css.form__input}
             id={tagId}
-            value={phone}
+            value={number}
             onChange={handleChange}
             required
             pattern={"\\+?\\d{1,4}?[ .\\-\\s]?\\(?\\d{1,3}?\\)?[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,4}[ .\\-\\s]?\\d{1,9}"}

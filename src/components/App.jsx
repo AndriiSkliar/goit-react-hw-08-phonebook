@@ -1,56 +1,66 @@
-import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
-import { Form } from "./Form/Form";
-import { ContactList } from "./Contacts/ContactsList";
-import { Section } from "./Section/Section";
-import { Filter } from "./Filter/Filter";
-import { addContact, fetchContacts } from 'redux/contacts/contacts.reducer';
-import { toggleModal } from 'redux/modal/modal.reducer';
-import { Modal } from './Modal/Modal';
-import { Error } from './Error/Error';
-import { Loader } from './Loader/Loader';
-import { selectContacts, selectContactsError, selectContactsIsLoading } from 'redux/selectors/contacts.selectors';
-import { selectIsOpenModal } from 'redux/selectors/modal.selectors';
+import { Routes, Route, Navigate } from "react-router-dom";
+import { Layout } from "./Layout/Layout";
+import { lazy, Suspense, useEffect } from "react";
+import { Loader } from "./Loader/Loader";
+import { useDispatch } from "react-redux";
+import { refreshThunk } from "redux/auth/auth.operations";
+import * as ROUTES from 'constants/routes.js'
+import RestrictedRoute from "./RestrictedRoute";
+import PrivateRoute from "./PrivateRoute";
+const Home = lazy(() => import("pages/HomePage/HomePage"));
+const Register = lazy(() => import("pages/RegisterPage/RegisterPage"));
+const Contacts = lazy(() => import("pages/ContactsPage/ContactsPage"));
+const Login = lazy(() => import("pages/LoginPage/LoginPage"));
+
+const appRoutes = [
+  {
+    path: ROUTES.HOME_ROUTE,
+    element: <Home />,
+  },
+  {
+    path: ROUTES.LOGIN_ROUTE,
+    element: (
+      <RestrictedRoute navigateTo={ROUTES.CONTACTS_ROUTE}>
+        <Login />
+      </RestrictedRoute>
+    ),
+  },
+  {
+    path: ROUTES.REGISTER_ROUTE,
+    element: (
+      <RestrictedRoute navigateTo={ROUTES.CONTACTS_ROUTE}>
+        <Register />
+      </RestrictedRoute>
+    ),
+  },
+  {
+    path: ROUTES.CONTACTS_ROUTE,
+    element: (
+      <PrivateRoute>
+        <Contacts />
+      </PrivateRoute>
+    ),
+  }
+];
 
 export const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectContactsIsLoading);
-  const error = useSelector(selectContactsError);
-  const isOpenModal = useSelector(selectIsOpenModal);
-
-  const formSubmitHandler = data => {
-    const hasDuplicates = contacts.some(
-      contact => contact.name === data.name
-    );
-
-    if (hasDuplicates) {
-      alert(`${data.name} is already in contacts.`);
-      return;
-    }
-
-    dispatch(addContact(data));
-  };
 
   useEffect(() => {
-    dispatch(fetchContacts())
-  }, [dispatch])
+  dispatch(refreshThunk())
+}, [dispatch])
 
-    return (
-      <div className="container">
-        <div className="wrapper">
-          {error && <Error error={error} />}
-          {isLoading && <Loader />}
-          <button className='openModal' type='button' onClick={() => dispatch(toggleModal())}>❌</button>
-          <Section title="Phonebook">
-            <Form onSubmit={formSubmitHandler} />
-          </Section>
-          <Section title="Contacts">
-            <Filter />
-            {contacts !== null && <ContactList />}
-          </Section>
-        </div>
-        {isOpenModal && <Modal />}
-      </div>
-    );
+  return (
+    <Layout>
+      <Suspense fallback={<Loader />}>
+        <Routes>
+          {appRoutes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+          <Route path="*" element={<Navigate to={ROUTES.HOME_ROUTE} />} />
+        </Routes>
+      </Suspense>
+    </Layout>
+  );
 };
+

@@ -8,8 +8,8 @@ export const selectFilterTerm = state => state.contactsStore.filterTerm
 export const selectFilteredContacts = createSelector(
   [selectContacts, selectFilterTerm],
   (items, filterTerm) =>
-    items.filter(({name, phone}) =>
+    items.filter(({name, number}) =>
       name.toLowerCase().includes(filterTerm.toLowerCase().trim()) ||
-      phone.toString().includes(filterTerm.toLowerCase().trim())
+      number.toString().includes(filterTerm.toLowerCase().trim())
   )
 );
