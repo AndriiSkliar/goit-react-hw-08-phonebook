@@ -1,0 +1,40 @@
+.nav {
+  padding: 10px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  color: var(--dark-color);
+  font-weight: bold;
+  font-size: 18px;
+  box-shadow: var(--box-shadow);
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease-in-out;
+}
+
+.navLink:hover,
+.navLink:focus {
+  color: var(--secondary-color);
+}
+
+.navLink:first-child {
+  margin-right: 25px;
+}
+
+.navContainer {
+  margin-left: auto;
+  display: flex;
+  gap: 25px;
+}
+
+.icon {
+  margin-right: 7px;
+}
+
+.active {
+  color: var(--secondary-color);
+}

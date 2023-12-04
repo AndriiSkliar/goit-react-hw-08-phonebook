@@ -4,31 +4,60 @@ import css from './Layout.module.css'
 import { useSelector } from 'react-redux';
 import { selectAuthenticated } from 'redux/selectors/auth.selectors';
 import { UserMenu } from 'components/UserMenu/UserMenu';
+import { ReactComponent as IconBook} from "assets/icons/phonebook.svg";
+import { ReactComponent as IconHome } from "assets/icons/home.svg";
+import { ReactComponent as IconLogin} from "assets/icons/login.svg";
+import { ReactComponent as IconRegistration} from "assets/icons/registration.svg";
 
 export const Layout = ({ children }) => {
   const authenticated = useSelector(selectAuthenticated);
+  const navLinkClass = `${css.navLink} ${css.active}`
 
   return (
-    <div className="container">
+    <>
       <header>
         <nav className={css.nav}>
-          <NavLink className={css.navLink} to="/"><span className={css.navLinkSpan}>Home</span></NavLink>
+          <NavLink className={({ isActive }) =>
+            (isActive ? navLinkClass : css.navLink)
+          }
+            to="/"
+          >
+            <IconHome className={css.icon} />Home
+          </NavLink>
           {authenticated ? (
             <>
-              <NavLink className={css.navLink} to="/contacts"><span className={css.navLinkSpan}>Contacts</span></NavLink>
-              <UserMenu />
-            </>
+              <NavLink className={({ isActive }) =>
+            (isActive ? navLinkClass : css.navLink)
+          }
+              to="/contacts"
+            >
+              <IconBook className={css.icon} /> Contacts
+            </NavLink>
+          <UserMenu />
+        </>
           ) : (
-            <>
-              <NavLink className={css.navLink} to="/register"><span className={css.navLinkSpan}>Register</span></NavLink>
-              <NavLink className={css.navLink} to="/login"><span className={css.navLinkSpan}>Login</span></NavLink>
-            </>
+            <div className={css.navContainer}>
+              <NavLink className={({ isActive }) =>
+            (isActive ? navLinkClass : css.navLink)
+          }
+                  to="/register"
+                >
+                <IconRegistration className={css.icon} />Register
+              </NavLink>
+              <NavLink className={({ isActive }) =>
+            (isActive ? navLinkClass : css.navLink)
+          }
+                  to="/login"
+                >
+                <IconLogin className={css.icon} />Login
+              </NavLink>
+            </div>
           )}
         </nav>
       </header>
       <main>
         {children}
       </main>
-    </div>
+    </>
   )
 }

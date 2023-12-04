@@ -1,0 +1,31 @@
+.navContainer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.navText {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease-in-out;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.navBtn:hover,
+.navBtn:focus {
+  color: var(--secondary-color);
+}
+
+.icon {
+  margin-right: 7px;
+}

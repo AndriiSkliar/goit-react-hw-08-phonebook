@@ -11,6 +11,7 @@ import { Loader } from 'components/Loader/Loader';
 import { selectContacts, selectContactsError, selectContactsIsLoading } from 'redux/selectors/contacts.selectors';
 import { selectIsOpenModal } from 'redux/selectors/modal.selectors';
 import { ContactList } from 'components/Contacts/ContactsList';
+import { toast } from 'react-toastify';
 
 const ContactsPage = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,10 @@ const ContactsPage = () => {
     );
 
     if (hasDuplicates) {
-      alert(`${data.name} is already in contacts.`);
+      toast.error(`${data.name} is already in your contacts`, {
+        position: "top-center",
+        autoClose: 3000,
+      });
       return;
     }
 

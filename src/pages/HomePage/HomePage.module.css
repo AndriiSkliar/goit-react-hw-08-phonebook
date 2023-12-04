@@ -1,0 +1,22 @@
+.homeContainer {
+  padding: 70px 20px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--dark-color);
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+.name,
+.link {
+  color: var(--secondary-color);
+  transition: color 0.2s ease-in-out;
+}
+
+.link:hover,
+.link:focus {
+  color: var(--dark-color);
+}

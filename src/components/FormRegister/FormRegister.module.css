@@ -1,0 +1,71 @@
+.addContactContainer {
+  max-width: 600px;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  max-height: 300px;
+  min-height: 200px;
+  padding: 25px 10px;
+  row-gap: 30px;
+  display: flex;
+  flex-direction: column;
+
+  margin: auto;
+  background-color: var(--secondary-color);
+  box-shadow: var(--box-shadow);
+}
+
+.contactContainer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  display: inline-block;
+}
+
+.contactLabel {
+  position: absolute;
+  left: 8px;
+  bottom: 50%;
+  transition: 250ms linear;
+  transform: translate(0, 50%);
+  font-size: 14px;
+}
+
+.inputField:focus + .contactLabel {
+  transform: translateY(-100%);
+}
+
+.inputField:not(:placeholder-shown) + .contactLabel {
+  transform: translateY(-100%);
+}
+
+.inputField {
+  border: none;
+  border-bottom: 1px solid var(--dark-color);
+  padding-left: 10px;
+  height: 25px;
+  width: 200px;
+  font-size: 14px;
+}
+
+.inputField::placeholder {
+  opacity: 0;
+}
+
+.contactBtn {
+  background-color: var(--main-color);
+  opacity: 0.8;
+  border: 1.5px solid transparent;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  transition: all 0.2s ease-in-out;
+  font-weight: bold;
+}
+
+.contactBtn:hover,
+.contactBtn:focus {
+  border-color: var(--dark-color);
+  opacity: 1;
+}
