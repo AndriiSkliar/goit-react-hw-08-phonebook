@@ -10,6 +10,10 @@ h1 {
   margin-bottom: 15px;
 }
 
+.name {
+  text-transform: capitalize;
+}
+
 .name,
 .link {
   color: var(--secondary-color);

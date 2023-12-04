@@ -13,7 +13,7 @@ const HomePage = () => {
       <h1>Contacts book</h1>
         {isAuthenticated ? (
           <h2>
-            Hello, <span className={css.name}>{userName} </span>, enter to your{" "}
+            Hello, <span className={css.name}>{userName}</span>, enter to your{" "}
             <Link className={css.link} to="/contacts">
               contacts{" "}
             </Link>
