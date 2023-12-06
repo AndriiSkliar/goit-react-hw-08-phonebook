@@ -7,6 +7,7 @@ import { loginThunk, registerThunk, refreshThunk, logOutThunk } from "./auth.ope
     authenticated: false,
     token: null,
     userData: null,
+    isRefresh: true,
   }
 
 const authSlice = createSlice({
@@ -20,22 +21,28 @@ const authSlice = createSlice({
 
   extraReducers: builder =>
     builder
-      .addCase(loginThunk.fulfilled, (state, { payload }) => {
+      .addCase(loginThunk.fulfilled, (state, action) => {
+        const { token, user } = action.payload;
         state.isLoading = false;
-        state.authenticated = true
-        state.token = payload.token;
-        state.userData = payload.user;
+        state.authenticated = true;
+        state.token = token;
+        state.userData = user;
       })
-      .addCase(registerThunk.fulfilled, (state, { payload }) => {
+      .addCase(registerThunk.fulfilled, (state, action) => {
+        const { token, user } = action.payload;
         state.isLoading = false;
-        state.authenticated = true
-        state.token = payload.token;
-        state.userData = payload.user;
+        state.authenticated = true;
+        state.token = token;
+        state.userData = user;
       })
       .addCase(refreshThunk.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.authenticated = true
+        state.authenticated = true;
         state.userData = payload;
+        state.isRefresh = false;
+      })
+      .addCase(refreshThunk.rejected, (state) => {
+        state.isRefresh = false;
       })
       .addCase(logOutThunk.fulfilled, () => {
         return initialState;

@@ -46,6 +46,7 @@ export const loginThunk = createAsyncThunk(
     try {
       const { data } = await instance.post('/users/login', formData);
       token.set(data.token);
+
       toast.success(
         "Log in successfull. Welcome back to your phone book",
         toastOptions
@@ -101,6 +102,7 @@ export const logOutThunk = createAsyncThunk(
       const { data } = await instance.post('/users/logout');
       token.unset();
       toast.success("Log out successfull. Come back sooner", toastOptions);
+
       return data;
     } catch (err) {
       token.unset();

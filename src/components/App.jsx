@@ -2,11 +2,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./Layout/Layout";
 import { lazy, Suspense, useEffect } from "react";
 import { Loader } from "./Loader/Loader";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { refreshThunk } from "redux/auth/auth.operations";
 import * as ROUTES from 'constants/routes.js'
 import RestrictedRoute from "./RestrictedRoute";
 import PrivateRoute from "./PrivateRoute";
+import { selectIsRefresh } from "redux/selectors/auth.selectors";
 const Home = lazy(() => import("pages/HomePage/HomePage"));
 const Register = lazy(() => import("pages/RegisterPage/RegisterPage"));
 const Contacts = lazy(() => import("pages/ContactsPage/ContactsPage"));
@@ -45,20 +46,21 @@ const appRoutes = [
 
 export const App = () => {
   const dispatch = useDispatch();
+  const isRefresh = useSelector(selectIsRefresh);
 
   useEffect(() => {
   dispatch(refreshThunk())
-}, [dispatch])
+  }, [dispatch])
 
   return (
     <Layout>
       <Suspense fallback={<Loader />}>
-        <Routes>
+        {!isRefresh && <Routes>
           {appRoutes.map(({ path, element }) => (
             <Route key={path} path={path} element={element} />
           ))}
           <Route path="*" element={<Navigate to={ROUTES.HOME_ROUTE} />} />
-        </Routes>
+        </Routes>}
       </Suspense>
     </Layout>
   );
