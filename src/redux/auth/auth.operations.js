@@ -65,45 +65,43 @@ export const loginThunk = createAsyncThunk(
 
 export const refreshThunk = createAsyncThunk(
   'auth/refresh',
-  async (_, thunkApi) => {
-    const state = thunkApi.getState();
-    const token = state.auth.token;
+ async (_, { getState, rejectWithValue }) => {
+    const { token: currentToken } = getState().auth;
 
-    if (!token) {
-      return thunkApi.rejectedWithValue()
-    };
+    if (currentToken === null) {
+      return rejectWithValue("Without token");
+    }
 
-    token.set(token);
+    token.set(currentToken);
     try {
       const { data } = await instance.get('/users/current');
 
       return data;
     } catch (error) {
       token.unset();
-      return thunkApi.rejectWithValue(
+      return rejectWithValue(
         "Auth state is old. Please enter to your personal cabinet again"
       )
     }
   },
-  {
-    condition: (_, thunkApi) => {
-      const state = thunkApi.getState();
-      const token = state.auth.token;
-      if (!token) return false;
-      return true;
-    },
-  }
+  // {
+  //   condition: (_, thunkApi) => {
+  //     const state = thunkApi.getState();
+  //     const persistToken = state.auth.token;
+  //     if (!persistToken) return false;
+  //     return true;
+  //   },
+  // }
 );
 
 export const logOutThunk = createAsyncThunk(
   'auth/logOut',
   async (_, {rejectWithValue}) => {
     try {
-      const { data } = await instance.post('/users/logout');
+      await instance.post('/users/logout');
       token.unset();
       toast.success("Log out successfull. Come back sooner", toastOptions);
 
-      return data;
     } catch (err) {
       token.unset();
       return rejectWithValue(err.message);

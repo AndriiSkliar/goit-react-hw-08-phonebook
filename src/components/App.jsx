@@ -7,7 +7,7 @@ import { refreshThunk } from "redux/auth/auth.operations";
 import * as ROUTES from 'constants/routes.js'
 import RestrictedRoute from "./RestrictedRoute";
 import PrivateRoute from "./PrivateRoute";
-import { selectIsRefresh } from "redux/selectors/auth.selectors";
+import { selectIsRefresh, selectToken } from "redux/selectors/auth.selectors";
 const Home = lazy(() => import("pages/HomePage/HomePage"));
 const Register = lazy(() => import("pages/RegisterPage/RegisterPage"));
 const Contacts = lazy(() => import("pages/ContactsPage/ContactsPage"));
@@ -46,11 +46,16 @@ const appRoutes = [
 
 export const App = () => {
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
   const isRefresh = useSelector(selectIsRefresh);
 
   useEffect(() => {
+    if (!token) {
+    dispatch(refreshThunk())
+  };
+
   dispatch(refreshThunk())
-  }, [dispatch])
+  }, [dispatch, token])
 
   return (
     <Layout>

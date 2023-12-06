@@ -8,14 +8,10 @@ export const UserMenu = () => {
   const userData = useSelector(selectUserData);
   const dispatch = useDispatch();
 
-  const onClick = () => {
-    dispatch(logOutThunk())
-  }
-
   return (
   <div className={css.navContainer}>
     <p className={css.navText}>{userData.email}</p>
-    <button className={css.navBtn} onClick={onClick}><IconLogout className={css.icon} />Logout</button>
+    <button className={css.navBtn} onClick={() => { dispatch(logOutThunk()) }}><IconLogout className={css.icon} />Logout</button>
   </div>
 )
 }
